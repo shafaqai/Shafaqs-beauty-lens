@@ -1,142 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shafaq's Beauty Lens</title>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shafaq’s Beauty Lens</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,Arial,sans-serif;background:#fdf4f6;color:#2b2430}
-.wrap{max-width:480px;margin:0 auto;padding:20px}
-h1{font-size:26px;margin:8px 0}
-h2{font-size:20px;margin:18px 0 8px}
-p{line-height:1.5}
-.card{background:#fff;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.btn{display:block;width:100%;padding:14px;border:0;border-radius:12px;background:#c2557a;color:#fff;font-size:17px;font-weight:600;margin-top:12px;cursor:pointer}
-.btn.alt{background:#fff;color:#c2557a;border:2px solid #c2557a}
-.badge{display:inline-block;background:#fff0c8;color:#7a5b00;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:600}
-.hide{display:none}
-#preview{width:100%;max-height:320px;object-fit:cover;border-radius:14px;margin-top:10px}
-.bar{background:#f0e3e8;border-radius:8px;height:12px;margin:4px 0 12px;overflow:hidden}
-.bar i{display:block;height:100%;background:#c2557a}
-.lbl{display:flex;justify-content:space-between;font-size:15px}
-.prod{border-top:1px solid #f0e3e8;padding:12px 0}
-.prod b{display:block}
-.small{font-size:12px;color:#6d6270}
-.tag{font-size:12px;background:#f8dbe5;color:#8a2e52;border-radius:8px;padding:2px 8px;margin-right:4px}
-.spin{width:44px;height:44px;border:5px solid #f0e3e8;border-top-color:#c2557a;border-radius:50%;animation:s 1s linear infinite;margin:20px auto}
-@keyframes s{to{transform:rotate(360deg)}}
-</style>
-</head>
-<body>
-<div class="wrap">
-
-<section id="s1">
-  <h1>Shafaq's Beauty Lens</h1>
-  <span class="badge">Demo version</span>
-  <p>Take a selfie, get a skin analysis, and see skincare products matched to your skin. All in one simple step.</p>
-  <div class="card">
-    <p><b>1.</b> Take or upload a selfie in good light<br><b>2.</b> Get your skin analysis<br><b>3.</b> See products picked for you</p>
-    <button class="btn" onclick="show('s2')">Start</button>
-  </div>
-</section>
-
-<section id="s2" class="hide">
-  <h2>Your selfie</h2>
-  <div class="card">
-    <p class="small">Face the light, no filters, no glasses. Your photo stays on your phone in this demo.</p>
-    <input type="file" id="file" accept="image/*" capture="user" class="hide">
-    <button class="btn alt" onclick="document.getElementById('file').click()">Take or choose a photo</button>
-    <img id="preview" class="hide" alt="Your selfie">
-    <button class="btn hide" id="go" onclick="analyze()">Analyze my skin</button>
-  </div>
-</section>
-
-<section id="s3" class="hide">
-  <div class="card" style="text-align:center"><div class="spin"></div><p>Analyzing your skin...</p></div>
-</section>
-
-<section id="s4" class="hide">
-  <h2>Your skin analysis</h2>
-  <span class="badge">Sample results (demo mode)</span>
-  <div class="card" id="results"></div>
-  <h2>Picked for you</h2>
-  <div class="card" id="products"></div>
-  <p class="small">This is a general skin-care guide, not medical advice. For skin problems that worry you, please see a dermatologist.</p>
-  <button class="btn" onclick="share()">Share on WhatsApp</button>
-  <button class="btn alt" onclick="location.reload()">Start again</button>
-</section>
-
+:root{--bg:#fdf6f3;--card:#fff;--ink:#3b2a30;--rose:#b4506a;--soft:#f3dfe3;--mut:#7d6a70}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+main{max-width:520px;margin:auto;padding:20px}h1{font-family:Georgia,serif;color:var(--rose);margin:8px 0 4px}
+p.s{color:var(--mut);margin:0 0 16px}.card{background:var(--card);border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 2px 10px #b4506a18}
+button,label.b{display:block;width:100%;padding:14px;border:0;border-radius:12px;background:var(--rose);color:#fff;font-size:16px;text-align:center;margin:8px 0;cursor:pointer}
+button.o{background:var(--soft);color:var(--rose)}img#pv{width:100%;border-radius:14px;display:none;margin-bottom:8px}
+.row{margin:10px 0}.bar{height:10px;background:var(--soft);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--rose)}
+.h{display:flex;justify-content:space-between;font-size:14px}.rec{border-left:4px solid var(--rose);padding:6px 10px;margin:10px 0;background:var(--bg);border-radius:6px}
+small{color:var(--mut)}#qr{display:flex;justify-content:center;margin-top:8px}#msg{color:#a33;min-height:20px}
+</style></head><body><main>
+<h1>Shafaq’s Beauty Lens</h1><p class="s">Selfie skin analysis + personalised skincare picks, in one step.</p>
+<div class="card">
+<img id="pv" alt="">
+<label class="b">📷 Take / choose a selfie<input id="f" type="file" accept="image/*" capture="user" hidden></label>
+<button id="go" disabled>Analyse my skin (live AI)</button>
+<button class="o" id="demo">See a sample result (demo)</button>
+<div id="msg"></div>
+<small>Tips: front-facing, even light, no makeup, hair off forehead. Powered by YouCam API.</small>
 </div>
-
+<div id="out"></div>
+<div class="card"><b>Share this app</b><div id="qr"></div></div>
+<small>Not medical advice. Your photo is sent only for analysis and is not stored by this app.</small>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-/* ---- Products: edit this list for each brand ---- */
-const PRODUCTS = [
-  {name:"Gentle Foaming Cleanser", brand:"Your Brand", for:["oiliness","acne"], note:"Daily face wash for oily or acne-prone skin"},
-  {name:"Salicylic Acid Serum", brand:"Your Brand", for:["acne","texture"], note:"Helps clear pores and smooth rough skin"},
-  {name:"Vitamin C Brightening Serum", brand:"Your Brand", for:["dark spots"], note:"Helps fade dark spots and even skin tone"},
-  {name:"Hyaluronic Moisturizer", brand:"Your Brand", for:["dryness"], note:"Deep hydration for dry, tight skin"},
-  {name:"Oil-Free Gel Moisturizer", brand:"Your Brand", for:["oiliness"], note:"Light hydration without extra shine"},
-  {name:"Gentle Exfoliating Toner", brand:"Your Brand", for:["texture","dark spots"], note:"Smooths texture, use 2-3 times a week"},
-  {name:"SPF 50 Sunscreen", brand:"Your Brand", for:["dark spots","dryness","acne","oiliness","texture"], note:"Daily protection, important for every skin type"}
-];
-const CONCERNS = ["acne","dark spots","dryness","oiliness","texture"];
-let fileSeed = 1, lastTop = [];
-
-function show(id){
-  ["s1","s2","s3","s4"].forEach(function(s){document.getElementById(s).classList.add("hide")});
-  document.getElementById(id).classList.remove("hide");
-  window.scrollTo(0,0);
-}
-
-document.getElementById("file").addEventListener("change", function(e){
-  var f = e.target.files[0];
-  if(!f) return;
-  fileSeed = (f.size % 997) + 3;
-  var img = document.getElementById("preview");
-  img.src = URL.createObjectURL(f);
-  img.classList.remove("hide");
-  document.getElementById("go").classList.remove("hide");
-});
-
-/* ---- Skin analysis ----
-   DEMO MODE: makes sample scores. When the YouCam API access is ready,
-   replace this function with a call to the API (through a small
-   server/proxy, never put the API key in this public file). */
-async function getSkinScores(){
-  await new Promise(function(r){setTimeout(r,1800)});
-  var scores = {};
-  CONCERNS.forEach(function(c,i){ scores[c] = 20 + ((fileSeed * (i+7) * 13) % 70); });
-  return scores;
-}
-
-async function analyze(){
-  show("s3");
-  var scores = await getSkinScores();
-  var html = "";
-  CONCERNS.forEach(function(c){
-    html += '<div class="lbl"><span>'+cap(c)+'</span><span>'+scores[c]+'%</span></div><div class="bar"><i style="width:'+scores[c]+'%"></i></div>';
-  });
-  document.getElementById("results").innerHTML = html;
-
-  var top = CONCERNS.slice().sort(function(a,b){return scores[b]-scores[a]}).slice(0,2);
-  lastTop = top;
-  var picks = PRODUCTS.filter(function(p){return p.for.some(function(c){return top.indexOf(c)>-1})});
-  var ph = "";
-  picks.slice(0,4).forEach(function(p){
-    var tags = p.for.filter(function(c){return top.indexOf(c)>-1}).map(function(c){return '<span class="tag">'+cap(c)+'</span>'}).join("");
-    ph += '<div class="prod"><b>'+p.name+'</b><span class="small">'+p.brand+'</span><p style="margin:4px 0">'+p.note+'</p>'+tags+'</div>';
-  });
-  document.getElementById("products").innerHTML = ph;
-  show("s4");
-}
-
-function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
-
-function share(){
-  var msg = "I tried Shafaq's Beauty Lens for a skin analysis and product picks: " + location.href;
-  window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
-}
-</script>
-</body>
-</html>
+// Edit this list: each skincare client can put their own products here.
+const CONCERNS={
+ acne:{label:"Acne & breakouts",product:"Gentle salicylic-acid cleanser + oil-free gel moisturiser",tip:"Cleanse twice daily; avoid touching your face."},
+ moisture:{label:"Hydration",product:"Hyaluronic-acid serum + ceramide cream",tip:"Apply on slightly damp skin and drink enough water."},
+ oiliness:{label:"Oil balance",product:"Niacinamide serum + mattifying SPF",tip:"Use a light, non-comedogenic moisturiser, don’t skip it."},
+ pore:{label:"Pores",product:"Niacinamide + weekly clay mask",tip:"Double-cleanse at night to keep pores clear."}
+};
+const $=id=>document.getElementById(id);let img=null;
+new QRCode($("qr"),{text:location.href,width:140,height:140});
+$("f").onchange=e=>{const file=e.target.files[0];if(!file)return;const im=new Image();
+ im.onload=()=>{const s=Math.min(im.width,im.height);if(s<480){$("msg").textContent="Photo is too small, please use a clearer one.";return}
+  const k=Math.min(1,640/s,1280/Math.max(im.width,im.height)),c=document.createElement("canvas");
+  c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+  img=c.toDataURL("image/jpeg",.85);$("pv").src=img;$("pv").style.display="block";$("go").disabled=false;$("msg").textContent=""};
+ im.src=URL.createObjectURL(file)};
+function show(sc,demo){const rows=Object.keys(CONCERNS).filter(k=>k in sc).sort((a,b)=>sc[a]-sc[b]);
+ let h='<div class="card"><b>Your skin report</b>'+(demo?' <small>(sample data)</small>':'');
+ rows.forEach(k=>h+=`<div class="row"><div class="h"><span>${CONCERNS[k].label}</span><b>${sc[k]}/100</b></div><div class="bar"><i style="width:${sc[k]}%"></i></div></div>`);
+ h+='</div><div class="card"><b>Recommended for you</b>';
+ rows.slice(0,2).forEach(k=>h+=`<div class="rec"><b>${CONCERNS[k].label}</b><br>${CONCERNS[k].product}<br><small>${CONCERNS[k].tip}</small></div>`);
+ $("out").innerHTML=h+'</div>';$("out").scrollIntoView({behavior:"smooth"})}
+$("demo").onclick=()=>show({acne:72,moisture:55,oiliness:68,pore:61},true);
+$("go").onclick=async()=>{$("go").disabled=true;$("msg").textContent="Analysing, about 20 seconds…";
+ try{const r=await fetch("/api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({image:img})});
+  const d=await r.json();if(!r.ok)throw new Error(d.error||"Failed");$("msg").textContent="";show(d.scores,false)}
+ catch(e){$("msg").textContent=e.message}$("go").disabled=false};
+</script></body></html>
